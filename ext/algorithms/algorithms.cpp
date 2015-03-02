@@ -5,6 +5,7 @@
 
 #include <string>
 #include <iostream>
+#include <limits>
 
 ///////////////////////////////////////////////////////////////////////////////
 // http://phrogz.net/programmingruby/ext_ruby.html
@@ -76,6 +77,24 @@ namespace {
 
         return INT2NUM(res);
     }
+
+    // Our 'fact' method ..
+    VALUE algorithms_method_min_float(VALUE self) {
+        double val = 1;
+        double res = 1;
+
+        while(val > 0) {
+            res = val;
+            val /= 2;
+        }
+
+        return rb_float_new(res);
+        // return rb_float_new(std::numeric_limits<double>::min());
+    }
+
+
+    // For arrays, see http://clalance.blogspot.cz/2011/01/writing-ruby-extensions-in-c-part-9.html
+
 }; // anonymous namespace
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,6 +106,8 @@ extern "C" void Init_algorithms() {
 	rb_define_method(AlgorithmsModule, "answer42", (VALUE(*)(ANYARGS))algorithms_method_answer_42, 0);
 
 	rb_define_method(AlgorithmsModule, "test", (VALUE(*)(ANYARGS))algorithms_method_test, 0);
+
+	rb_define_method(AlgorithmsModule, "min_float", (VALUE(*)(ANYARGS))algorithms_method_min_float, 0);
 
 	rb_define_method(AlgorithmsModule, "fact", (VALUE(*)(ANYARGS))algorithms_method_fact, 1);
 }

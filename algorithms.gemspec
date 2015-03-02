@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
 
   spec.extensions = %w[ext/algorithms/extconf.rb]
 
+  spec.add_dependency "ffi"
   spec.add_dependency "pry"
 
   spec.add_development_dependency "bundler", "~> 1.8"
