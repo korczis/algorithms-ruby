@@ -1,5 +1,14 @@
+#include "algorithms.h"
+
 // Include the Ruby headers and goodies
-#include "ruby.h"
+// TODO: Hide this in c++/use forward declarations if needed
+#include <ruby.h>
+
+// Prototype for the initialization method - Ruby calls this, not you
+void Init_algorithms();
+
+#include <string>
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 // http://phrogz.net/programmingruby/ext_ruby.html
@@ -35,23 +44,27 @@
 //*/
 
 // Defining a space for information and references about the module to be stored internally
-VALUE AlgorithmsModule = Qnil;
+static VALUE AlgorithmsModule = Qnil;
 
 // Prototype for our method 'test'
 VALUE algorithms_method_test(VALUE self);
-VALUE algorithms_method_fact(VALUE self, VALUE val);
+VALUE algorithms_method_fact(VALUE self, VALUE rb_int);
 
 // The initialization method for this module
-void Init_algorithms() {
+extern "C" void Init_algorithms() {
 	AlgorithmsModule = rb_define_module("Algorithms");
-	rb_define_method(AlgorithmsModule, "test", algorithms_method_test, 0);
-	rb_define_method(AlgorithmsModule, "fact", algorithms_method_fact, 1);
+
+	rb_define_method(AlgorithmsModule, "test", (VALUE(*)(ANYARGS))algorithms_method_test, 0);
+	rb_define_method(AlgorithmsModule, "fact", (VALUE(*)(ANYARGS))algorithms_method_fact, 1);
 }
 
 // Our 'test' method.. it simply returns a value of '10' for now.
 VALUE algorithms_method_test(VALUE self) {
-	int x = 10;
-	return INT2NUM(x);
+	// int x = 10;
+	// return INT2NUM(x);
+
+    std::string msg = "Hello World!";
+	return rb_str_new2(msg.c_str());
 }
 
 // Our 'fact' method ..
