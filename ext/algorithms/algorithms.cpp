@@ -1,11 +1,7 @@
 #include "algorithms.h"
 
 // Include the Ruby headers and goodies
-// TODO: Hide this in c++/use forward declarations if needed
 #include <ruby.h>
-
-// Prototype for the initialization method - Ruby calls this, not you
-void Init_algorithms();
 
 #include <string>
 #include <iostream>
