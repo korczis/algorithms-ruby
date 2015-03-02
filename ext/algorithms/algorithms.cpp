@@ -43,40 +43,54 @@ void Init_algorithms();
 #define T_MASK   RUBY_T_MASK
 //*/
 
-// Defining a space for information and references about the module to be stored internally
-static VALUE AlgorithmsModule = Qnil;
+namespace {
+    // Defining a space for information and references about the module to be stored internally
+    static VALUE AlgorithmsModule = Qnil;
 
-// Prototype for our method 'test'
-VALUE algorithms_method_test(VALUE self);
-VALUE algorithms_method_fact(VALUE self, VALUE rb_int);
+    // Prototype for our method 'test'
+    VALUE algorithms_method_answer_42(VALUE self);
+    VALUE algorithms_method_test(VALUE self);
+    VALUE algorithms_method_fact(VALUE self, VALUE rb_int);
 
+    // Our 'answer_42' method.. it simply returns a value of '10' for now.
+    VALUE algorithms_method_answer_42(VALUE self) {
+        const int x = 42;
+        return INT2NUM(x);
+    }
+
+    // Our 'test' method.. it simply returns a value of '10' for now.
+    VALUE algorithms_method_test(VALUE self) {
+        // int x = 10;
+        // return INT2NUM(x);
+
+        std::string msg = "Hello World!";
+        return rb_str_new2(msg.c_str());
+    }
+
+    // Our 'fact' method ..
+    VALUE algorithms_method_fact(VALUE self, VALUE rb_int) {
+        Check_Type(rb_int, T_FIXNUM);
+
+        unsigned int val = FIX2UINT(rb_int);
+
+        unsigned long long res = 1;
+        for(unsigned int i = 1; i <= val; i++) {
+            res *= i;
+        }
+
+        return INT2NUM(res);
+    }
+}; // anonymous namespace
+
+///////////////////////////////////////////////////////////////////////////////
 // The initialization method for this module
+///////////////////////////////////////////////////////////////////////////////
 extern "C" void Init_algorithms() {
 	AlgorithmsModule = rb_define_module("Algorithms");
 
+	rb_define_method(AlgorithmsModule, "answer42", (VALUE(*)(ANYARGS))algorithms_method_answer_42, 0);
+
 	rb_define_method(AlgorithmsModule, "test", (VALUE(*)(ANYARGS))algorithms_method_test, 0);
+
 	rb_define_method(AlgorithmsModule, "fact", (VALUE(*)(ANYARGS))algorithms_method_fact, 1);
-}
-
-// Our 'test' method.. it simply returns a value of '10' for now.
-VALUE algorithms_method_test(VALUE self) {
-	// int x = 10;
-	// return INT2NUM(x);
-
-    std::string msg = "Hello World!";
-	return rb_str_new2(msg.c_str());
-}
-
-// Our 'fact' method ..
-VALUE algorithms_method_fact(VALUE self, VALUE rb_int) {
-    Check_Type(rb_int, T_FIXNUM);
-
-    unsigned int val = FIX2UINT(rb_int);
-
-    unsigned long long res = 1;
-    for(unsigned int i = 1; i <= val; i++) {
-        res *= i;
-    }
-
-    return INT2NUM(res);
 }
