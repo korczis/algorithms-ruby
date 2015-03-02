@@ -1,4 +1,4 @@
-# Algorithms
+# algorithms-ruby
 
 ## Installation
 
