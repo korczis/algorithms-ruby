@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'algorithms/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "algorithms"
+  spec.name          = "algorithms-ruby"
   spec.version       = Algorithms::VERSION
   spec.authors       = ["Tomas Korcak"]
   spec.email         = ["korczis@gmail.com"]
@@ -15,12 +15,12 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Algorithms in pure ruby'
   spec.description   = 'Fundamental algorithms in ruby'
-  spec.homepage      = "http://github.com/korczis/ruby-algorithms"
+  spec.homepage      = "http://github.com/korczis/algorithms-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.bindir        = ['bin']
+  spec.executables   = ['algorithms-ruby']
   spec.require_paths = ["lib"]
 
   spec.extensions = %w[ext/algorithms/extconf.rb]
